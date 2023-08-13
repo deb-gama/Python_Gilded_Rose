@@ -8,7 +8,7 @@ class GildedRose(object):
     # Sulfura no need sell_in value -- sell_in == 0 OK
 
     # QUALITY RULES
-    # Quando a data de venda do item tiver passado, a qualidade (`quality`) do item diminui duas vezes mais rapido.
+    # Quando a data de venda do item tiver passado, a qualidade (`quality`) do item diminui duas vezes mais rapido. (if sell_in == 0, quality -= 2) OK
     # A qualidade (`quality`) do item não pode ser negativa
     # O "Queijo Brie envelhecido" (`Aged Brie`), aumenta sua qualidade (`quality`) em `1` unidade a medida que envelhece.
     def sell_in_drop(self, item):
@@ -20,14 +20,21 @@ class GildedRose(object):
         return item
     
     def check_sell_in_date_to_update_quality(self, item):
-        item.quality -= 1
+        if item.sell_in == 0:
+            item.quality -= 2
+        else:
+            item.quality -= 1
 
         return item
+    
+    def format_quality_value(self,item):
+        ...
 
     def update_quality(self):
         for item in self.items:
             self.sell_in_drop(item)
             self.check_sell_in_date_to_update_quality(item)
+            self.format_quality_value(item)
             # if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
             #     if item.quality > 0:
             #         if item.name != "Sulfuras, Hand of Ragnaros":
