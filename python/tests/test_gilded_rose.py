@@ -38,7 +38,7 @@ class GildedRoseTest(GildedTestBase):
         gilded = self.mocked_gilded
         gilded.update_quality()
         
-        expected_result = [19,-1,6,79,79,19,48,48,5]
+        expected_result = [19,0,6,78,78,19,48,48,5]
 
         with self.subTest(expected_result = expected_result):
             result = []
@@ -51,7 +51,7 @@ class GildedRoseTest(GildedTestBase):
         gilded = self.mocked_gilded
         gilded.update_quality()
         
-        expected_result = [19,-1,6,78,78,19,48,48,5]
+        expected_result = [19,-0,6,78,78,19,48,48,5]
 
         with self.subTest(expected_result = expected_result):
             result = []
@@ -61,10 +61,13 @@ class GildedRoseTest(GildedTestBase):
             self.assertEqual(result, expected_result)
 
     def test_quality_must_never_be_negative(self):
+        days = 3
         gilded = self.mocked_gilded
-        gilded.update_quality()
+
+        for _ in range(days):
+            gilded.update_quality()
         
-        expected_result = [19,0,6,78,78,19,48,48,5]
+        expected_result = [17,0,4,74,74,17,46,46,2]
 
         with self.subTest(expected_result = expected_result):
             result = []
