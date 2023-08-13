@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 import unittest
-import pytest
-
 from gilded_rose import Item, GildedRose
 from gilded_rose_test_base import GildedTestBase
 
@@ -35,11 +33,25 @@ class GildedRoseTest(GildedTestBase):
                 if 'Sulfuras' in item.name:
                     self.assertEqual(item.sell_in,expected_result)
 
-    def test_quality_must_be_decremented_when_update_quality_method_was_called(self):
+
+    def test_quality_must_be_decremented_once_when_update_quality_method_was_called(self):
         gilded = self.mocked_gilded
         gilded.update_quality()
         
         expected_result = [19,-1,6,79,79,19,48,48,5]
+
+        with self.subTest(expected_result = expected_result):
+            result = []
+            for item in self.items:
+                result.append(item.quality)
+            
+            self.assertEqual(result, expected_result)
+
+    def test_quality_must_be_decremented_twice_if_sell_in_equals_zero(self):
+        gilded = self.mocked_gilded
+        gilded.update_quality()
+        
+        expected_result = [19,-1,6,78,79,19,48,48,5]
 
         with self.subTest(expected_result = expected_result):
             result = []
