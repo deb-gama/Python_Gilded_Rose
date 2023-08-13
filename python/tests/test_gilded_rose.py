@@ -2,12 +2,12 @@
 import unittest
 import pytest
 
-from python.gilded_rose import Item, GildedRose
+from gilded_rose import Item, GildedRose
 from gilded_rose_test_base import GildedTestBase
 
 class GildedRoseTest(GildedTestBase):
     
-    def test_sell_in_must_be_decremented_as_the_days_goes_by(self):
+    def test_sell_in_must_be_decremented_when_update_quality_method_was_called(self):
         days = 2
         items_list = self.items
         gilded = GildedRose(items_list)
@@ -15,7 +15,7 @@ class GildedRoseTest(GildedTestBase):
         for _ in range(days):
             gilded.update_quality()
         
-        expected_result = [8,0,3,-2,-3,13,8,3,1]
+        expected_result = [8,0,3,0,0,13,8,3,1]
 
         with self.subTest(expected_result = expected_result):
             result = []
@@ -24,6 +24,18 @@ class GildedRoseTest(GildedTestBase):
             
             self.assertEqual(result, expected_result)
 
+
+    def test_sell_in_must_be_zero_if_item_is_sulfuras(self):
+        items_list = self.items
+        gilded = GildedRose(items_list)
+        expected_result = 0
+
+        gilded.update_quality()
+
+        with self.subTest(expected_result = expected_result):
+            for item in items_list:
+                if 'Sulfuras' in item.name:
+                    self.assertEqual(item.sell_in,expected_result)
 
 
 
