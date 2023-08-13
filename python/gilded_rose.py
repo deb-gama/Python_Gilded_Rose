@@ -22,18 +22,18 @@ class GildedRose(object):
     
     # Sulfuras its legendary, bitch... a update não muda seus valores de sell_in e quality que podem ser n/a - formatados em um método
     # special items aumentam a qualidade conforme o sell in é reduzido e isso os exclui das regras genéricas de decremento da qualidade
+
+# QUALITY GENERIC CONDITIONS
+#   * A qualidade (`quality`) aumenta em `2` unidades quando a data de venda (`SellIn`) é igual ou menor que `10`.
+#   * A qualidade (`quality`) aumenta em `3` unidades quando a data de venda (`SellIn`) é igual ou menor que `5`.
+#   * A qualidade (`quality`) do item vai direto à `0` quando a data de venda (`SellIn`) tiver passado. sell_in = 0 / quality = 0
+#  se sell_in > 0 and not in special items : 
+
+# CONJURED
+# * Os itens "Conjurados" (`Conjured`) diminuem a qualidade (`quality`) duas vezes mais rápido que os outros itens.
     
     def sell_in_drop(self, item):
         item.sell_in -= 1
-        return item
-    
-    def check_sell_in_date_to_update_quality(self, item):
-        if item.name not in SPECIAL_ITEMS:
-            if item.sell_in == 0:
-                item.quality -= 2
-            else:
-                item.quality -= 1
-
         return item
     
     def format_quality_value(self,item):
@@ -48,20 +48,37 @@ class GildedRose(object):
         return item
 
     def special_update_quality(self, item):
-        if item.name in SPECIAL_ITEMS:
-            item.quality += 1
-        
+        item.quality += 1
         return item
+
+    def check_sell_in_date_to_update_quality(self, item):
+        if item.sell_in <= 5:
+            item.quality += 3
+            return item
         
-    
+        if item.sell_in <= 10:
+            item.quality += 2
+            return item
+        
+
+    def conjured_item_drop_quality(self):
+        ...
+
+        
+    def check_conditions_to_update_quality(self, item):
+        if item.name not in SPECIAL_ITEMS:
+            self.check_sell_in_date_to_update_quality(item)
+        else:
+            self.special_update_quality(item)
+        return item
 
     def update_quality(self):
         for item in self.items:
             if item.name not in LEGENDARY_ITEMS:
                 self.sell_in_drop(item)
-                self.check_sell_in_date_to_update_quality(item)
+                self.check_conditions_to_update_quality(item)
                 self.format_quality_value(item)
-                self.special_update_quality(item)
+  
             else:
                 self.format_legendary_items(item)
             # if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
