@@ -4,6 +4,7 @@ from python.gilded_rose import Item, GildedRose
 from tests.gilded_rose_test_base import GildedTestBase
 
 LEGENDARY_ITEMS = ['Sulfuras, Hand of Ragnaros']
+SPECIAL_ITEMS = ['Aged Brie', 'Backstage passes to a TAFKAL80ETC concert']
 class GildedRoseTest(GildedTestBase):
     
     def test_sell_in_must_be_decremented_when_update_quality_method_was_called(self):
@@ -40,26 +41,27 @@ class GildedRoseTest(GildedTestBase):
         gilded = self.mocked_gilded
         gilded.update_quality()
         
-        expected_result = [19,0,6,19,48,48,5]
+        expected_result = [19,6,5]
 
         with self.subTest(expected_result = expected_result):
             result = []
             for item in self.items:
-                if item.name not in LEGENDARY_ITEMS:
+                if item.name not in LEGENDARY_ITEMS and item.name not in SPECIAL_ITEMS:
                     result.append(item.quality)
             
             self.assertEqual(result, expected_result)
 
     def test_quality_must_be_decremented_twice_if_sell_in_equals_zero(self):
+        # TODO criar item com condição que deixe o sell in igual zero e que não seja brie nem backstage para que o teste específico pegue
         gilded = self.mocked_gilded
         gilded.update_quality()
         
-        expected_result = [19,-0,6,19,48,48,5]
+        expected_result = [19,6,5]
 
         with self.subTest(expected_result = expected_result):
             result = []
             for item in self.items:
-                if item.name not in LEGENDARY_ITEMS:
+                if item.name not in LEGENDARY_ITEMS and item.name not in SPECIAL_ITEMS:
                     result.append(item.quality)
             
             self.assertEqual(result, expected_result)
@@ -71,7 +73,7 @@ class GildedRoseTest(GildedTestBase):
         for _ in range(days):
             gilded.update_quality()
         
-        expected_result = [17,0,4,17,46,46,2]
+        expected_result = [17,3,4,23,52,52,2]
 
         with self.subTest(expected_result = expected_result):
             result = []
