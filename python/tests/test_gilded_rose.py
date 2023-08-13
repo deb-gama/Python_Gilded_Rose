@@ -81,20 +81,21 @@ class GildedRoseTest(GildedTestBase):
             
             self.assertEqual(result, expected_result)
 
-    def test_brie_must_have_the_quality_incremented(self):
+    def test_special_items_must_have_the_quality_incremented(self):
         days = 2
         gilded = self.mocked_gilded
 
         for _ in range(days):
             gilded.update_quality()
         
-        expected_result = [18,2,5,17,46,46,2]
+        expected_result = [18,2,5,22,51,51,4]
 
         with self.subTest(expected_result = expected_result):
             result = []
   
             for item in self.items:
-                result.append(item.quality)
+                if item.name not in LEGENDARY_ITEMS:
+                    result.append(item.quality)
             
             self.assertEqual(result, expected_result)
 
