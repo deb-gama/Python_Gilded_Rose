@@ -5,8 +5,13 @@ class GildedRose(object):
         self.items = items
 
     # sell_in value must be decremented each time that update quality method was called
+    # Sulfura no need sell_in value -- sell_in == 0
     def sell_in_drop(self, item):
-        item.sell_in = 0
+
+        if "Sulfuras" in item.name:
+            item.sell_in = 0
+        else: 
+            item.sell_in -= 1
 
         return item
 
