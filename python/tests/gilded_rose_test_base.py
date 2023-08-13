@@ -1,7 +1,10 @@
 import unittest
 from gilded_rose import Item, GildedRose
 
+def gilded_mocker(items):
+    gilded_mock = GildedRose(items)
 
+    return gilded_mock
 
 class GildedTestBase(unittest.TestCase):
     def setUp(self) -> None:
@@ -16,6 +19,8 @@ class GildedTestBase(unittest.TestCase):
             Item(name="Backstage passes to a TAFKAL80ETC concert", sell_in=5, quality=49),
             Item(name="Conjured Mana Cake", sell_in=3, quality=6),  # <-- :O
         ]
+
+        self.mocked_gilded = gilded_mocker(items=self.items)
         
         return super().setUp()
     
