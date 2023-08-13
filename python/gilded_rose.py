@@ -28,7 +28,10 @@ class GildedRose(object):
         return item
     
     def format_quality_value(self,item):
-        ...
+        if item.quality < 0:
+            item.quality = 0
+        
+        return item
 
     def update_quality(self):
         for item in self.items:
