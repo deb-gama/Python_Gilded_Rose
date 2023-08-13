@@ -9,8 +9,7 @@ class GildedRoseTest(GildedTestBase):
     
     def test_sell_in_must_be_decremented_when_update_quality_method_was_called(self):
         days = 2
-        items_list = self.items
-        gilded = GildedRose(items_list)
+        gilded = self.mocked_gilded
 
         for _ in range(days):
             gilded.update_quality()
@@ -19,21 +18,20 @@ class GildedRoseTest(GildedTestBase):
 
         with self.subTest(expected_result = expected_result):
             result = []
-            for item in items_list:
+            for item in self.items:
                 result.append(item.sell_in)
             
             self.assertEqual(result, expected_result)
 
 
     def test_sell_in_must_be_zero_if_item_is_sulfuras(self):
-        items_list = self.items
-        gilded = GildedRose(items_list)
+        gilded = self.mocked_gilded
         expected_result = 0
 
         gilded.update_quality()
 
         with self.subTest(expected_result = expected_result):
-            for item in items_list:
+            for item in self.items:
                 if 'Sulfuras' in item.name:
                     self.assertEqual(item.sell_in,expected_result)
 
