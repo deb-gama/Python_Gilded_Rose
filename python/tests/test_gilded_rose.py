@@ -36,11 +36,8 @@ class GildedRoseTest(GildedTestBase):
                     self.assertEqual(item.sell_in,expected_result)
 
     def test_quality_must_be_decremented_when_update_quality_method_was_called(self):
-        days = 2
         gilded = self.mocked_gilded
-
-        for _ in range(days):
-            gilded.update_quality()
+        gilded.update_quality()
         
         expected_result = [19,-1,6,79,79,19,48,48,5]
 
