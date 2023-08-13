@@ -101,7 +101,34 @@ class GildedRoseTest(GildedTestBase):
             
             self.assertEqual(result, expected_result)
 
-            print(result)
+    
+
+    def test_quality_must_be_incremented_twice_if_the_sell_in_date_is_equal_or_less_10(self):
+        days = 2
+        gilded = self.mocked_gilded
+
+        for _ in range(days):
+            gilded.update_quality()
+        
+        expected_result = [24,11,10]
+
+        with self.subTest(expected_result = expected_result):
+            result = []
+  
+            for item in self.items:
+                if item.name not in LEGENDARY_ITEMS and item.name not in SPECIAL_ITEMS:
+                    result.append(item.quality)
+            
+            self.assertEqual(result, expected_result)
+
+ 
+        
+
+    def test_quality_must_be_incremented_three_times_if_the_sell_in_date_is_equal_or_less_5(self):
+        ...
+
+    def test_quality_must_be_zero_if_the_sell_in_is_equal_zero(self):
+        ...
 
 
 
