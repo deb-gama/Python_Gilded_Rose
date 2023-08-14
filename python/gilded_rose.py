@@ -61,8 +61,11 @@ class GildedRose(object):
             return item
         
 
-    def conjured_item_drop_quality(self):
-        ...
+    def conjured_item_drop_quality(self,item):
+        if 'Conjured' in item.name:
+            item.quality -= 2
+        return item
+        
 
         
     def check_conditions_to_update_quality(self, item):
